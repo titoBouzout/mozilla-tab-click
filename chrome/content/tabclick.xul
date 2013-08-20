@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<overlay  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript">
+  	<![CDATA[
+
+		var titoTabClick = {
+
+		  tabs : [],
+
+		  load:function() {
+				removeEventListener('load', titoTabClick.load, false);
+
+				var container = gBrowser.tabContainer;
+						container.addEventListener("TabSelect", titoTabClick.currentTabChanged, false);
+						container.addEventListener("TabOpen", titoTabClick.clickListenerAdd, false);
+						container.addEventListener("TabClose", titoTabClick.clickListenerRemove, false);
+
+				for(var i=0;i< gBrowser.tabContainer.childNodes.length;i++)
+					gBrowser.tabContainer.childNodes[i].addEventListener("mousedown", titoTabClick.click, true);
+		  },
+		  unload:function() {
+				var container = gBrowser.tabContainer;
+						container.removeEventListener("TabSelect", titoTabClick.currentTabChanged, false);
+						container.removeEventListener("TabOpen", titoTabClick.clickListenerAdd, false);
+						container.removeEventListener("TabClose", titoTabClick.clickListenerRemove, false);
+		  },
+		  clickListenerAdd:function(aEvent) {
+				aEvent.originalTarget.addEventListener("mousedown", titoTabClick.click, true);
+		  },
+		  clickListenerRemove:function(aEvent) {
+				aEvent.originalTarget.removeEventListener("mousedown", titoTabClick.click, false);
+		  },
+		  currentTabChanged:function(aEvent) {
+		  	titoTabClick.tabs.unshift(aEvent.originalTarget);
+		  	tabs = titoTabClick.tabs.slice(0, 2);
+		  },
+		  click:function(aEvent) {
+			  var newTab = titoTabClick.tabs[1];
+				if(aEvent.button != 0 || gBrowser.selectedTab != aEvent.currentTarget || !newTab){}
+				else
+					setTimeout(function(){ gBrowser.selectedTab = newTab}, 50);
+		  }
+		};
+		addEventListener('load', titoTabClick.load, false);
+		addEventListener('unload', titoTabClick.unload, false);
+	  ]]>
+	</script>
+</overlay>

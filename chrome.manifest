@@ -1,0 +1,4 @@
+content tabclick chrome/content/
+
+overlay	chrome://browser/content/browser.xul chrome://tabclick/content/tabclick.xul
+overlay	chrome://navigator/content/navigator.xul chrome://tabclick/content/tabclick.xul
